@@ -2,6 +2,9 @@ FROM richarvey/nginx-php-fpm:3.1.6
 
 COPY . .
 
+# Ejecutar la instalación de Composer durante la compilación en la nube (evita falta de memoria)
+RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
 # Configuración de la imagen
 ENV SKIP_COMPOSER 1
 ENV WEBROOT /var/www/html/public
