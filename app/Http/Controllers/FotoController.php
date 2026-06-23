@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Models\Foto;
 use App\Http\Requests\CrearFotoRequest;
+use App\Http\Requests\ActualizarFotoRequest;
 use Carbon\Carbon;
 
 class FotoController extends Controller
@@ -94,18 +95,13 @@ class FotoController extends Controller
     }
 
     // Procesa la actualización de la foto (y opcionalmente la nueva imagen)
-    public function postActualizar(Request $request)
+    public function postActualizar(ActualizarFotoRequest $request)
     {
         $foto_id = $request->get('foto_id');
         $foto = Foto::find($foto_id);
 
         if ($foto) {
-            $request->validate([
-                'nombre' => 'required',
-                'descripcion' => 'required',
-                'imagen' => 'image|max:20000', // Opcional
-            ]);
-
+            // El ActualizarFotoRequest ya validó: nombre requerido, descripción requerida, imagen opcional
             $foto->foto_nombre = $request->get('nombre');
             $foto->foto_descripcion = $request->get('descripcion');
 

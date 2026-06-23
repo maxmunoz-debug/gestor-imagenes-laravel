@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Album;
 use App\Http\Requests\CrearAlbumRequest;
+use App\Http\Requests\ActualizarAlbumRequest;
 use Illuminate\Support\Facades\Auth;
 
 class AlbumController extends Controller
@@ -77,17 +78,13 @@ class AlbumController extends Controller
     }
 
     // Guarda los cambios del álbum
-    public function postActualizar(Request $request)
+    public function postActualizar(ActualizarAlbumRequest $request)
     {
         $album_id = $request->get('album_id');
         $album = Album::find($album_id);
 
         if ($album) {
-            $request->validate([
-                'nombre' => 'required',
-                'descripcion' => 'required',
-            ]);
-
+            // El ActualizarAlbumRequest ya se encargó de validar nombre y descripcion
             $album->album_nombre = $request->get('nombre');
             $album->album_descripcion = $request->get('descripcion');
             $album->save();
